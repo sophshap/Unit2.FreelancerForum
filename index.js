@@ -3,8 +3,8 @@
 // define state variables (the ones we'll need later)
 const names = ["Alice", "Bob", "Carol", "Sophie", "Caroline", "Sam", "Megan", "Keiran"];
 const occupations = ["Writer", "Teacher", "Programmer", "Lawyer", "Doctor"]
-const startingPrice = [20, 30, 40, 50, 60, 70, 80]
-const average = 1
+const startingPrices = [20, 30, 40, 50, 60, 70, 80]
+
 
 // sample data for starter freelancers
 const freelancers = [
@@ -18,16 +18,11 @@ const freelancers = [
         occupation: "Teacher",
         price: 50
     },
-    // {
-    //     name: "Carol",
-    //     occupation: "Programmer",
-    //     price: 70
-    // }
 ]
 
-// END STATE VARIABLES
+// Add new freelancer every 5 seconds
 
-setInterval(addFreelancer, 1000)
+setInterval(addFreelancer, 5000)
 
 // call render function once to render initial state
 render()
@@ -35,6 +30,7 @@ render()
 function render() {
     // Render the freelancers
     const freelancersContainer = document.querySelector("#container");
+    const averagePriceElement = document.querySelector("#avg");
     const freelancerElements = freelancers.map((freelancer) => {
         const element = document.createElement("li");
         element.textContent = (`${freelancer.name}, ${freelancer.occupation}, ${freelancer.price}`);
@@ -43,6 +39,10 @@ function render() {
     });
     freelancersContainer.replaceChildren(...freelancerElements);
 
+
+    const totalPrices = freelancers.reduce((sum, freelancer) => sum + freelancer.price, 0);
+    const averagePrice = freelancers.length > 0 ? (totalPrices / freelancers.length).toFixed(2) : 0;
+    averagePriceElement.textContent = averagePrice
 
 }
 
@@ -53,9 +53,7 @@ function render() {
 function addFreelancer() {
     const name = names[Math.floor(Math.random() * names.length)];
     const occupation = occupations[Math.floor(Math.random() * occupations.length)];
-    const price = startingPrice[Math.floor(Math.random() * startingPrice.length)];
-
-    // TODO: Randomize the occupations
+    const price = startingPrices[Math.floor(Math.random() * startingPrices.length)];
 
     freelancers.push({ name: name, occupation: occupation, price: price });
 
